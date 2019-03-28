@@ -31,7 +31,9 @@ export default {
         .then(err => {
           const {data:{data,meta:{msg,status}}} =err
            if(status===200){
-               console.log('success--')
+               this.$router.push({
+                   path:'/'
+               })
            }else{
                this.$message.error(msg);
            }
