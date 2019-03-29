@@ -26,18 +26,34 @@ export default {
     }
   },
   methods: {
-    handleLogin () {
-      this.$http.post(`login`, this.formdata)
-        .then(err => {
-          const {data:{data,meta:{msg,status}}} =err
-           if(status===200){
-               this.$router.push({
-                   path:'/'
-               })
-           }else{
-               this.$message.error(msg);
-           }
+    async handleLogin () {
+      const res =await this.$http.post(`login`, this.formdata)
+      console.log(res)
+      const {data:{data,meta:{msg,status}}} =res
+      if(status==200){
+        localStorage.setItem('token',data.token)
+        // 目的:渲染新组件 <-改标识 <-(js改标识)
+        this.$router.push({
+          path:'/'
         })
+      }else{
+        // 提示框 <- ui
+        this.$message.error(msg);
+      }
+        // 处理异步操作的结果res
+        // .then(response => {
+        //   const {data:{data,meta:{msg,status}}} =response
+        //    if(status===200){
+        //      渲染home.vue <- 改标识 <- js改标识
+        //        this.$router.push({
+        //            path:'/'
+        //        })
+        //    }else{
+        //        this.$message.error(msg);
+        //    }
+        // })
+        const aa =localStorage.getItem('token')
+        console.log(aa)
     }
   }
 }
